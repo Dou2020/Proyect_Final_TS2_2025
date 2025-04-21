@@ -1,0 +1,25 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+
+class RolesSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        DB::table('roles')->insert([
+            ['nombre' => 'Administrador', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['nombre' => 'Ayudante', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['nombre' => 'Auditor', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['nombre' => 'Usuario', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        ]);
+    }
+}
