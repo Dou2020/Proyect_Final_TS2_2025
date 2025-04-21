@@ -21,7 +21,7 @@
 
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Usuario</label>
-                <input type="email" name="email" id="email" required
+                <input type="text" name="email" id="email" required
                        value="{{ old('email') }}"
                        class="mt-1 w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
             </div>
