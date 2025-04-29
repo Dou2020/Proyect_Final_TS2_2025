@@ -3,12 +3,7 @@
 @section('title', 'Menu Principal')
 
 @section('options')
-    <a href="{{ route('home') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
-        Inicio
-    </a>
-    <a href="{{ route('login') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
-        Perfil
-    </a>   
+    @include('user.option')
 @endsection
 
 @section('content')
@@ -19,5 +14,3 @@
         <p class="text-gray-600 text-lg">Estás dentro del sistema. 🚀</p>
     </div>
 @endsection
-
-

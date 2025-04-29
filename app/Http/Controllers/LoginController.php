@@ -10,11 +10,11 @@ class LoginController extends Controller
     public function showLogin()
     {
         // Si ya está autenticado, redirige al dashboard
-        if (Auth::check()) {
+        if (Auth::guard('usuarios')->check()) {
             
             return redirect()->route('home')->with('success', 'Ya estás autenticado.');
         }
-
+        // si no esta autenticado retornar a login
         return view('login');
     }
 
@@ -31,11 +31,8 @@ class LoginController extends Controller
         // Intentar iniciar sesión
         if (Auth::guard('usuarios')->attempt($credentials)) {
             $request->session()->regenerate();
-
-            // Aquí podés usar Auth::user() para acceder al usuario
-            $user = Auth::user();
-            logger($user);
-            // Redirigimos según el rol o simplemente al dashboard
+            
+            // Redirigimos según el rol o simplemente al home
             return redirect()->route('home')->with('success', 'Bienvenido ' );
         }
 
