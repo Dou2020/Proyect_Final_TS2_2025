@@ -8,9 +8,18 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
-// Route of the Home
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// En routes/web.php
+Route::middleware('auth:usuarios')->group(function () {
+    // Route of the HomeController
+});
+
+Route::get('/home', [HomeController::class, 'showHome'])->name('home');
+
+// visualizar la vista de login
+Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+
+// validar las credenciales del formulario login
+Route::post('/login', [LoginController::class, 'login']);
+
 Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
