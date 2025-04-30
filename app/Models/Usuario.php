@@ -36,6 +36,23 @@ class Usuario extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function isAdmin()
+    {
+        return $this->rol_id === 1; // Asumiendo que el rol de administrador tiene ID 1
+    }
+    public function isAyudante()
+    {
+        return $this->rol_id === 2; // Asumiendo que el rol de usuario tiene ID 2
+    }
+    public function isAuditor()
+    {
+        return $this->rol_id === 3; // Asumiendo que el rol de usuario tiene ID 2
+    }
+    public function isUsuario()
+    {
+        return $this->rol_id === 4; // Asumiendo que el rol de usuario tiene ID 2
+    }
+
     // Relación con rol
     public function rol()
     {

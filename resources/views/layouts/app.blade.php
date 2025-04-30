@@ -12,7 +12,7 @@
         <div class="p-4">
             <h2 class="text-xl font-bold text-gray-700 mb-4">Menú</h2>
             <nav class="space-y-2">
-                @yield('options')
+                @include('layouts.option')
             </nav>
         </div>
     </aside>

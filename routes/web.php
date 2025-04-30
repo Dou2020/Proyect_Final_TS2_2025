@@ -24,9 +24,10 @@ Route::middleware('auth:usuarios')->group(function () {
     // Route of the HomeController
     Route::get('/home', [HomeController::class, 'showHome'])->name('home');
 
-    // Route of AdminController
+    // Route options fot the NichoController
     Route::resource('nichos', NichoController::class);
 
+    // Route option for the UsuarioController
     Route::resource('usuarios', UsuarioController::class);
 
 });

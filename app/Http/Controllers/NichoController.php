@@ -64,22 +64,23 @@ class NichoController extends Controller
     {
         return view('nichos.edit', compact('nicho'));
     }
+    
 
     /**
      * Actualizar un nicho existente.
      */
     public function update(Request $request, Nicho $nicho)
     {
-        $request->validate([
-            'codigo' => 'required|string|max:20|unique:nichos,codigo,' . $nicho->id,
-            'tipo' => 'required|string|max:20',
+        $validated = $request->validate([
+            'codigo' => 'required|string|max:20|exists:nichos,codigo',
+            'tipo_nicho_id' => 'required|exists:tipo_nicho,id',
             'calle' => 'required|string|max:50',
             'avenida' => 'required|string|max:50',
-            'estado' => 'required|string|max:30',
-            'personaje_historico' => 'required|boolean',
+            'estado_nicho_id' => 'required|exists:estado_nicho,id',
+            'personaje_historico' => 'nulleable|boolean',
         ]);
 
-        $nicho->update($request->all());
+        $nicho->update($validated);
 
         return redirect()->route('nichos.index')->with('success', 'Nicho actualizado correctamente.');
     }

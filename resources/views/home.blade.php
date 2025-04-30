@@ -2,15 +2,6 @@
 
 @section('title', 'Menu Principal')
 
-@section('options')
-    <a href="{{ route('home') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
-        Inicio
-    </a>
-    <a href="{{ route('login') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
-        Perfil
-    </a>   
-@endsection
-
 @section('content')
     <div class="text-center">
         <h2 class="text-3xl font-semibold text-gray-800 mb-4">
