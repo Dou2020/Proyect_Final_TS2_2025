@@ -46,6 +46,36 @@ class UsuariosSeeder extends Seeder
                 'genero_id' => 2, // Femenino
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+            ],
+            [
+                'user' => 'auditor',
+                'nombre' => 'Miguel',
+                'apellido' => 'García',
+                'fecha_nacimiento' => '1999-08-15',
+                'dpi' => '9876543210102',
+                'email' => 'auditor@correo.com',
+                'password' => Hash::make('1234'),
+                'direccion' => 'Zona 8, Quetzaltenango',
+                'telefono' => '87654333',
+                'rol_id' => 3, // Ayudante
+                'genero_id' => 1, // Masculino
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'user' => 'usuario',
+                'nombre' => 'Ortega',
+                'apellido' => 'García',
+                'fecha_nacimiento' => '1920-08-15',
+                'dpi' => '9876543210112',
+                'email' => 'usuario@correo.com',
+                'password' => Hash::make('1234'),
+                'direccion' => 'Zona 12, Quetzaltenango',
+                'telefono' => '87654334',
+                'rol_id' => 4, // Ayudante
+                'genero_id' => 1, // Masculino
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]
         ]);
     }

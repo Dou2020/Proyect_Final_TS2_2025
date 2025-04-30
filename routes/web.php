@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NichoController;
+use App\Http\Controllers\UsuarioController;
 
 // Ruta de root
 Route::get('/', [LoginController::class, 'showLogin'])->name('login');
@@ -22,5 +24,9 @@ Route::middleware('auth:usuarios')->group(function () {
     // Route of the HomeController
     Route::get('/home', [HomeController::class, 'showHome'])->name('home');
 
+    // Route of AdminController
+    Route::resource('nichos', NichoController::class);
+
+    Route::resource('usuarios', UsuarioController::class);
 
 });

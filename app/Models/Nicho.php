@@ -13,15 +13,25 @@ class Nicho extends Model
 
     protected $fillable = [
         'codigo',
-        'tipo',
+        'tipo_nicho_id',
         'calle',
         'avenida',
-        'estado',
+        'estado_nicho_id',
         'personaje_historico',
     ];
 
     protected $casts = [
         'personaje_historico' => 'boolean',
     ];
+
+    public function tipoNicho()
+    {
+        return $this->belongsTo(TipoNicho::class, 'tipo_nicho_id');
+    }
+    public function estadoNicho()
+    {
+        return $this->belongsTo(EstadoNicho::class, 'estado_nicho_id');
+    }
+
 }
 
