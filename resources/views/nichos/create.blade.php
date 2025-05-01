@@ -2,10 +2,6 @@
 
 @section('title', 'Registrar Nicho')
 
-@section('options')
-    @include('admin.option')
-@endsection
-
 @section('content')
 <div class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-2xl shadow-md">
     <h2 class="text-2xl font-bold mb-6 text-gray-700">Registrar Nicho</h2>
