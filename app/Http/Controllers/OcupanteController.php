@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ocupante;
 use App\Models\Nicho;
 use App\Models\Usuario;
+use App\Models\Genero;
 use Illuminate\Http\Request;
 
 class OcupanteController extends Controller
@@ -23,9 +24,10 @@ class OcupanteController extends Controller
      */
     public function create()
     {
-        $nichos = Nicho::all();
+        $nichos = Nicho::where('estado_nicho_id',1)->get();
         $usuarios = Usuario::all();
-        return view('ocupantes.create', compact('nichos', 'usuarios'));
+        $generos = Genero::all();
+        return view('ocupantes.create', compact('generos','nichos', 'usuarios'));
     }
 
     /**
@@ -37,10 +39,40 @@ class OcupanteController extends Controller
             'fecha_fallecimiento' => 'required|date',
             'causa_muerte' => 'required|string|max:255',
             'nicho_id' => 'required|exists:nichos,id',
-            'usuario_id' => 'required|exists:usuarios,id',
+            // Datos del difunto (usuario)
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'dpi' => 'required|string|max:25|unique:usuarios,dpi',
+            'direccion' => 'nullable|string|max:255',
+            'genero_id' => 'required|exists:generos,id',
         ]);
 
-        Ocupante::create($request->all());
+        $nicho = Nicho::find($request->nicho_id);
+
+        $nicho->update([
+            'estado_nicho_id' => 2, // Cambiar el estado del nicho a ocupado
+        ]);
+
+        // Crear el usuario (difunto)
+        $usuario = Usuario::create([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'dpi' => $request->dpi,
+            'direccion' => $request->direccion,
+            'genero_id' => $request->genero_id,
+            'estado' => false, // Estado por defecto
+        ]);
+
+        // Crear el ocupante
+        Ocupante::create([
+            'fecha_fallecimiento' => $request->fecha_fallecimiento,
+            'causa_muerte' => $request->causa_muerte,
+            'nicho_id' => $request->nicho_id,
+            'usuario_id' => $usuario->id,
+        ]);
+
 
         return redirect()->route('ocupantes.index')->with('success', 'Ocupante registrado correctamente.');
     }
@@ -58,9 +90,10 @@ class OcupanteController extends Controller
      */
     public function edit(Ocupante $ocupante)
     {
-        $nichos = Nicho::all();
-        $usuarios = Usuario::all();
-        return view('ocupantes.edit', compact('ocupante', 'nichos', 'usuarios'));
+        $nichos = Nicho::where('estado_nicho_id',1)->get();
+        $usuario = Usuario::all();
+        $generos = Genero::all();
+        return view('ocupantes.edit', compact('ocupante', 'nichos', 'usuario','generos'));
     }
 
     /**
@@ -72,10 +105,29 @@ class OcupanteController extends Controller
             'fecha_fallecimiento' => 'required|date',
             'causa_muerte' => 'required|string|max:255',
             'nicho_id' => 'required|exists:nichos,id',
-            'usuario_id' => 'required|exists:usuarios,id',
+            // Datos del difunto (usuario)
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'dpi' => 'required|string|max:25|exists:usuarios,dpi',
+            'direccion' => 'nullable|string|max:255',
+            'genero_id' => 'required|exists:generos,id',
         ]);
 
-        $ocupante->update($request->all());
+        $ocupante->update([
+            'fecha_fallecimiento' => $request->fecha_fallecimiento,
+            'causa_muerte' => $request->causa_muerte,
+            'nicho_id' => $request->nicho_id,
+        ]);
+
+        $ocupante->usuario->update([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'dpi' => $request->dpi,
+            'direccion' => $request->direccion,
+            'genero_id' => $request->genero_id,
+        ]);
 
         return redirect()->route('ocupantes.index')->with('success', 'Ocupante actualizado correctamente.');
     }

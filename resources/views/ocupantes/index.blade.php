@@ -18,7 +18,7 @@
         <table class="min-w-full text-sm text-left">
             <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr>
-                <th class="px-4 py-2">Usuario</th>
+                <th class="px-4 py-2">Difunto</th>
                     <th class="px-4 py-2">Fallecimiento</th>
                     <th class="px-4 py-2">Causa</th>
                     <th class="px-4 py-2">Nicho</th>
@@ -34,11 +34,15 @@
                     <td class="px-4 py-2">{{ $ocupante->nicho->codigo ?? 'N/A' }}</td>
                     <td class="px-4 py-2 space-x-2">
                         <a href="{{ route('ocupantes.show', $ocupante) }}" class="text-blue-500 hover:underline">Ver</a>
-                        <a href="{{ route('ocupantes.edit', $ocupante) }}" class="text-yellow-500 hover:underline">Editar</a>
+                        <a href="{{ route('ocupantes.edit', $ocupante) }}" class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition text-xs">
+                            Editar
+                        </a>
                         <form action="{{ route('ocupantes.destroy', $ocupante) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Eliminar este ocupante?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition text-xs">
+                                Eliminar
+                            </button>
                         </form>
                     </td>
                 </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ocupante;
 use App\Models\Nicho;
 use App\Models\TipoNicho;
 use App\Models\EstadoNicho;
@@ -94,5 +95,18 @@ class NichoController extends Controller
 
         return redirect()->route('nichos.index')->with('success', 'Nicho eliminado correctamente.');
     }
+
+    public function verOcupante(Nicho $nicho)
+    {
+        $ocupante = Ocupante::where('nicho_id', $nicho->id)->first();
+
+        if (!$ocupante) {
+            return redirect()->route('nichos.index')->with('error', 'Este nicho no tiene ocupante.');
+        }
+
+        return view('nichos.ocupante', compact('ocupante', 'nicho'));
+    }
+
+
 }
 

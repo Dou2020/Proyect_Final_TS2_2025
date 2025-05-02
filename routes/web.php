@@ -27,6 +27,9 @@ Route::middleware('auth:usuarios')->group(function () {
 
     // Route options fot the NichoController
     Route::resource('nichos', NichoController::class);
+    // Route to show the ocupante of a nicho
+    Route::get('/nichos/{nicho}/ocupante', [NichoController::class, 'verOcupante'])->name('nichos.ocupante');
+
 
     // Route option for the UsuarioController
     Route::resource('usuarios', UsuarioController::class);

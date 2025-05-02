@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->string('user', 100)->unique();
+            $table->string('user', 100)->unique()->nullable();
             $table->string('nombre', 100);
             $table->string('apellido', 100);
             $table->date('fecha_nacimiento');
             $table->string('dpi', 20)->unique();
-            $table->string('email', 100)->unique();
-            $table->text('password');
+            $table->string('email', 100)->unique()->nullable();
+            $table->text('password')->nullable();
             $table->text('direccion');
-            $table->string('telefono', 20);
+            $table->string('telefono', 20)->nullable();
             $table->boolean('estado')->default(true);
             $table->foreignId('genero_id')->constrained('generos'); // FK hacia 'generos'
-            $table->foreignId('rol_id')->constrained('roles'); // FK hacia 'roles'
+            $table->foreignId('rol_id')->constrained('roles')->nullable(); // FK hacia 'roles'
             $table->timestamps();
         });
     }

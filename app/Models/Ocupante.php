@@ -18,10 +18,6 @@ class Ocupante extends Model
         'usuario_id',
     ];
 
-    protected $casts = [
-        'fecha_fallecimiento' => 'date',
-    ];
-
     // Relaciones
     public function nicho()
     {

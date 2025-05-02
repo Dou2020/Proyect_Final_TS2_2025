@@ -15,7 +15,11 @@ class UsuarioController extends Controller
     // Listar todos los usuarios
     public function index()
     {
-        $usuarios = Usuario::with(['rol', 'genero'])->get();
+        $usuarios = Usuario::with(['rol', 'genero'])
+                    ->whereNotNull('rol_id')  // Filtrar usuarios cuyo rol no sea null
+                    ->where('estado', true)   // Filtrar usuarios cuyo estado sea true
+                    ->get();
+        
         return view('usuario.index', compact('usuarios'));
     }
 

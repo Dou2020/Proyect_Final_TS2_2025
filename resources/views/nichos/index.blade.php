@@ -13,6 +13,11 @@
             {{ session('success') }}
         </div>
     @endif
+    @if(session('error'))
+        <div class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg shadow">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">
         <table class="min-w-full text-sm text-left text-gray-700">
@@ -42,6 +47,13 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 flex space-x-2">
+                    @if($nicho->estadoNicho->nombre == 'Ocupado')
+                        <a href="{{ route('nichos.ocupante', $nicho->id) }}"
+                            class="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition text-xs">
+                            Ocupante
+                        </a>
+                    @endif
+
                         <a href="{{ route('nichos.edit', $nicho->id) }}"
                            class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition text-xs">
                             Editar
