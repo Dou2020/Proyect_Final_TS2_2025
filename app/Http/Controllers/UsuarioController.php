@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\Rol;
+use App\Models\Genero;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -28,6 +30,12 @@ class UsuarioController extends Controller
 
         return response()->json($usuario, 200);
     }
+    
+    public function create(){
+        $roles = Rol::all();
+        $generos = Genero::all();
+        return view('usuario.create',compact('roles','generos'));
+    }
 
     // Crear un nuevo usuario
     public function store(Request $request)
@@ -39,7 +47,7 @@ class UsuarioController extends Controller
             'fecha_nacimiento' => 'required|date',
             'dpi' => 'required|string|max:13|unique:usuarios,dpi',
             'email' => 'required|email|unique:usuarios,email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:4',
             'direccion' => 'nullable|string',
             'telefono' => 'nullable|string|max:15',
             'rol_id' => 'required|exists:roles,id',
@@ -51,7 +59,13 @@ class UsuarioController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json($usuario, 201);
+        return redirect()->route('usuarios.index')->with('success','Usuario creado correctamente.');
+    }
+
+    public function edit(Usuario $usuario){
+        $roles = Rol::all();
+        $generos = Genero::all();
+        return view('usuario.edit', compact('roles','generos','usuario'));
     }
 
     // Actualizar un usuario existente
@@ -63,7 +77,7 @@ class UsuarioController extends Controller
             return response()->json(['message' => 'Usuario no encontrado'], 404);
         }
 
-        $request->validate([
+        $validation = $request->validate([
             'user' => ['string', 'max:255', Rule::unique('usuarios')->ignore($usuario->id)],
             'nombre' => 'string|max:255',
             'apellido' => 'string|max:255',
@@ -85,7 +99,7 @@ class UsuarioController extends Controller
 
         $usuario->save();
 
-        return response()->json($usuario, 200);
+        return redirect()->route('usuarios.index')->with('success', 'usuario actualizado correctamente.');
     }
 
     // Eliminar un usuario
@@ -99,6 +113,6 @@ class UsuarioController extends Controller
 
         $usuario->delete();
 
-        return response()->json(['message' => 'Usuario eliminado'], 200);
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }

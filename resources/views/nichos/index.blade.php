@@ -8,6 +8,11 @@
         <h1 class="text-2xl font-bold text-gray-800">Lista de Nichos</h1>
         <a href="{{ route('nichos.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">+ Nuevo Nicho</a>
     </div>
+    @if(session('success'))
+        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg shadow">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">
         <table class="min-w-full text-sm text-left text-gray-700">

@@ -4,19 +4,19 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <h1 class="text-3xl font-bold mb-6">Lista de Usuarios</h1>
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold mb-6">Lista de Usuarios</h1>
+        <a href="{{ route('usuarios.create') }}" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded shadow">
+            + Crear Usuario
+        </a>
+    </div>
 
     @if(session('success'))
         <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg shadow">
             {{ session('success') }}
         </div>
     @endif
-
-    <div class="mb-4">
-        <a href="{{ route('usuarios.create') }}" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded shadow">
-            + Crear Usuario
-        </a>
-    </div>
 
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">

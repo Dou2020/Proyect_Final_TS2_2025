@@ -1,7 +1,7 @@
 <a href="{{ route('nichos.index') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
     Nichos
 </a>
-<a href="{{ route('login') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
+<a href="{{ route('ocupantes.index') }}" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-700">
     Ocupantes
 </a>  
 @if ( !Auth::guard('usuarios')->user()->isUsuario())

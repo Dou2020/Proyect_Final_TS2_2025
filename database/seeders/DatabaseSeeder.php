@@ -8,6 +8,7 @@ use Database\Seeders\GenerosSeeder;
 use Database\Seeders\UsuariosSeeder;
 use Database\Seeders\TipoNichoSeeder;
 use Database\Seeders\EstadoNichoSeeder;
+use Database\Seeders\TipoResponsable;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
             UsuariosSeeder::class,
             TipoNichoSeeder::class,
             EstadoNichoSeeder::class,
+            TipoResponsable::class,
         ]);
         
         User::factory()->create([
