@@ -16,7 +16,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $usuarios = Usuario::with(['rol', 'genero'])
-                    ->whereNotNull('rol_id')  // Filtrar usuarios cuyo rol no sea null
+                    ->where('rol_id', '!=', 5) // Filtrar usuarios cuyo rol_id sea diferente a 5
                     ->where('estado', true)   // Filtrar usuarios cuyo estado sea true
                     ->get();
         

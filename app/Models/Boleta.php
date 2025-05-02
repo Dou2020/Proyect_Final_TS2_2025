@@ -1,25 +1,35 @@
 <?php
 
-namespace Database\Factories;
+namespace App\Models;
 
-use App\Models\Boleta;
-use App\Models\Contrato;
-use App\Models\TipoBoleta;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class BoletaFactory extends Factory
+class Boleta extends Model
 {
-    protected $model = Boleta::class;
+    use HasFactory;
 
-    public function definition()
+    protected $table = 'boleta';
+
+    protected $fillable = [
+        'numero_boleta',
+        'contrato_id',
+        'tipo_boleta_id',
+        'fecha_emision',
+        'monto',
+        'estado_pago',
+    ];
+
+    // Relación con el contrato
+    public function contrato()
     {
-        return [
-            'numero_boleta' => $this->faker->unique()->numerify('BOLETA-####'),
-            'contrato_id' => Contrato::factory(),
-            'fecha_emision' => $this->faker->date(),
-            'monto' => $this->faker->randomFloat(2, 100, 5000),
-            'estado_pago' => $this->faker->boolean(),
-            'tipo_boleta_id' => TipoBoleta::factory(),
-        ];
+        return $this->belongsTo(Contrato::class);
+    }
+
+    // Relación con tipo de boleta
+    public function tipoBoleta()
+    {
+        return $this->belongsTo(TipoBoleta::class);
     }
 }
+

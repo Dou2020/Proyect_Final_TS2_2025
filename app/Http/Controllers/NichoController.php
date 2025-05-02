@@ -41,8 +41,11 @@ class NichoController extends Controller
             'calle' => 'required|string|max:50',
             'avenida' => 'required|string|max:50',
             'estado_nicho_id' => 'required|exists:estado_nicho,id',
-            'personaje_historico' => 'nulleable|boolean',
+            'personaje_historico' => 'nullable|boolean',
         ]);
+
+        // Si personaje_historico es null, se convierte en false
+        $validatedData['personaje_historico'] = $validatedData['personaje_historico'] ?? false;
 
         $nicho = Nicho::create($validated);
 
@@ -78,8 +81,11 @@ class NichoController extends Controller
             'calle' => 'required|string|max:50',
             'avenida' => 'required|string|max:50',
             'estado_nicho_id' => 'required|exists:estado_nicho,id',
-            'personaje_historico' => 'nulleable|boolean',
+            'personaje_historico' => 'nullable|boolean',
         ]);
+
+        // Si personaje_historico es null, se convierte en false
+        $validatedData['personaje_historico'] = $validatedData['personaje_historico'] ?? false;
 
         $nicho->update($validated);
 

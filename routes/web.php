@@ -7,6 +7,7 @@ use App\Http\Controllers\NichoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\OcupanteController;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\BoletaController;
 
 // Ruta de root
 Route::get('/', [LoginController::class, 'showLogin'])->name('login');
@@ -38,8 +39,15 @@ Route::middleware('auth:usuarios')->group(function () {
     // Route option for the OcupanteController
     Route::resource('ocupantes', OcupanteController::class);
 
+    Route::patch('/contratos/{contrato}/renovar', [ContratoController::class, 'renovarContrato'])->name('contratos.renovar');
+
     // Route option for the ContratoController
     Route::resource('contratos', ContratoController::class);
+
+    Route::patch('/boletas/{boleta}/cambiar-estado', [BoletaController::class, 'cambiarEstado'])->name('boletas.cambiarEstado');
+
+    Route::resource('boletas', BoletaController::class);
+
 
 
 });

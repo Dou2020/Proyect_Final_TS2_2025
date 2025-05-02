@@ -19,7 +19,7 @@ class ContratoController extends Controller
 {
     public function index()
     {
-        $contratos = Contrato::with(['usuario', 'ocupante', 'estadoContrato'])->get();
+        $contratos = Contrato::with(['usuario', 'ocupante', 'estadoContrato','boleta'])->get();
         return view('contratos.index', compact('contratos'));
     }
     public function create()
@@ -89,6 +89,11 @@ class ContratoController extends Controller
             'ocupante_id' => $ocupante->id,
             'usuario_id' => auth()->id(),
         ]);
+
+        // 4.1 Cambiar el estado del nicho a "ocupado" (asumimos que el ID 2 es 'ocupado')
+        $nicho = Nicho::find($request->nicho_id);
+        $nicho->estado_nicho_id = 2; // ID para estado "ocupado"
+        $nicho->save();
     
         // 5. Crear boleta automáticamente
         $numeroBoleta = 'BOL-' . strtoupper(uniqid());
@@ -145,6 +150,31 @@ class ContratoController extends Controller
         $contrato->delete();
         return redirect()->route('contratos.index')->with('success', 'Contrato eliminado.');
     }
+
+    public function renovarContrato(Contrato $contrato)
+    {
+        // Añadir 1 año a la fecha final
+        $nuevaFechaFinal = Carbon::parse($contrato->fecha_final)->addYear();
+
+        // Actualizar la fecha final del contrato
+        $contrato->fecha_final = $nuevaFechaFinal;
+        $contrato->save();
+
+        // Generar una nueva boleta
+        $numeroBoleta = 'BOL-' . strtoupper(uniqid());
+
+        Boleta::create([
+            'numero_boleta' => $numeroBoleta,
+            'contrato_id' => $contrato->id,
+            'tipo_boleta_id' => 2, // Suponiendo que el tipo de boleta 1 es el que corresponde
+            'fecha_emision' => now(),
+            'monto' => 600.00, // Aquí puedes ajustar el monto si es necesario
+            'estado_pago' => false, // El estado de pago es inicialmente pendiente
+        ]);
+
+        return redirect()->route('contratos.index')->with('success', 'Contrato renovado y nueva boleta generada correctamente.');
+    }
+
 }
 
 

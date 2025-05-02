@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Boleta;
+
 
 class Contrato extends Model
 {
@@ -34,6 +36,12 @@ class Contrato extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class);
+    }
+
+        // En Contrato.php
+    public function boleta()
+    {
+        return $this->hasOne(Boleta::class);
     }
 }
 

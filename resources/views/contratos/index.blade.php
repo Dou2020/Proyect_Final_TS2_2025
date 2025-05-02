@@ -25,7 +25,7 @@
                     <th class="px-4 py-2">Costo</th>
                     <th class="px-4 py-2">Boleta</th>
                     <th class="px-4 py-2">Nicho</th>
-                    <th class="px-4 py-2">Usuario</th>
+                    <th class="px-4 py-2">Responsable</th>
                     <th class="px-4 py-2">Acciones</th>
                 </tr>
             </thead>
@@ -36,16 +36,23 @@
                         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($contrato->fecha_inicio)->format('d/m/Y') }}</td>
                         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($contrato->fecha_final)->format('d/m/Y') }}</td>
                         <td class="px-4 py-2">
-                            <span class="px-2 py-1 rounded {{ $contrato->estado_pago ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">
-                                {{ $contrato->estado_pago ? 'Pagado' : 'Pendiente' }}
+                            <span class="px-2 py-1 rounded {{ $contrato->boleta?->estado_pago ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">
+                                {{ $contrato->boleta?->estado_pago ? 'Pagado' : 'Pendiente' }}
                             </span>
                         </td>
-                        <td class="px-4 py-2">Q{{ number_format($contrato->costo, 2) }}</td>
-                        <td class="px-4 py-2">{{ $contrato->numero_boleta }}</td>
-                        <td class="px-4 py-2">{{ $contrato->nicho->codigo ?? 'N/A' }}</td>
+                        <td class="px-4 py-2">Q {{ $contrato->boleta?->monto ?? 00.00 }}</td>
+                        <td class="px-4 py-2">{{ $contrato->boleta?->numero_boleta ?? 'No generada' }}</td>
+                        <td class="px-4 py-2">{{ $contrato->ocupante?->nicho->codigo ?? 'N/A' }}</td>
                         <td class="px-4 py-2">{{ $contrato->usuario->nombre ?? 'N/A' }}</td>
                         <td class="px-4 py-2 space-x-2">
-                            <a href="{{ route('contratos.show', $contrato) }}" class="text-blue-600 hover:underline">Ver</a>
+                        <form action="{{ route('contratos.renovar', $contrato->id) }}" method="POST" class="inline-block">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="text-green-600 hover:underline">
+                                Renovar
+                            </button>
+                        </form>
+
                             <a href="{{ route('contratos.edit', $contrato) }}" class="text-yellow-600 hover:underline">Editar</a>
                             <form action="{{ route('contratos.destroy', $contrato) }}" method="POST" class="inline">
                                 @csrf
