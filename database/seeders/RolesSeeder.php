@@ -20,6 +20,7 @@ class RolesSeeder extends Seeder
             ['nombre' => 'Ayudante', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['nombre' => 'Auditor', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['nombre' => 'Usuario', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['nombre' => 'Difunto', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

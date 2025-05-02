@@ -14,25 +14,21 @@ class Contrato extends Model
     protected $fillable = [
         'fecha_inicio',
         'fecha_final',
-        'estado_pago',
+        'estado_contrato_id',
         'comprobante_imagen',
-        'costo',
-        'numero_boleta',
-        'nicho_id',
+        'ocupante_id', 
         'usuario_id',
     ];
 
-    protected $casts = [
-        'fecha_inicio' => 'date',
-        'fecha_final' => 'date',
-        'estado_pago' => 'boolean',
-        'costo' => 'decimal:2',
-    ];
-
-    // Relaciones
-    public function nicho()
+    public function estadoContrato()
     {
-        return $this->belongsTo(Nicho::class);
+        return $this->belongsTo(EstadoContrato::class);
+    }
+
+    // Relación con ocupante
+    public function ocupante()
+    {
+        return $this->belongsTo(Ocupante::class);
     }
 
     public function usuario()

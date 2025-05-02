@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NichoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\OcupanteController;
+use App\Http\Controllers\ContratoController;
 
 // Ruta de root
 Route::get('/', [LoginController::class, 'showLogin'])->name('login');
@@ -36,5 +37,9 @@ Route::middleware('auth:usuarios')->group(function () {
 
     // Route option for the OcupanteController
     Route::resource('ocupantes', OcupanteController::class);
+
+    // Route option for the ContratoController
+    Route::resource('contratos', ContratoController::class);
+
 
 });

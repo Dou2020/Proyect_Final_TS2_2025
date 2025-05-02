@@ -33,7 +33,10 @@
                     <td class="px-4 py-2">{{ $ocupante->causa_muerte }}</td>
                     <td class="px-4 py-2">{{ $ocupante->nicho->codigo ?? 'N/A' }}</td>
                     <td class="px-4 py-2 space-x-2">
-                        <a href="{{ route('ocupantes.show', $ocupante) }}" class="text-blue-500 hover:underline">Ver</a>
+                        <a href="{{ route('ocupantes.show', $ocupante) }}" 
+                        class="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition text-xs">
+                            Responsable
+                        </a>
                         <a href="{{ route('ocupantes.edit', $ocupante) }}" class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition text-xs">
                             Editar
                         </a>

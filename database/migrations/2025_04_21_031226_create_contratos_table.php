@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->date('fecha_inicio');
             $table->date('fecha_final');
-            $table->boolean('estado_pago');
-            $table->text('comprobante_imagen');
-            $table->decimal('costo', 10, 2);
-            $table->integer('numero_boleta');
-            $table->foreignId('nicho_id')->constrained('nichos'); // FK hacia 'nichos'
+            $table->foreignId('estado_contrato_id')->constrained('estado_contrato'); // FK hacia 'nichos'
+            $table->text('comprobante_imagen')->nullable();
+            $table->foreignId('ocupante_id')->constrained('ocupantes'); // Nuevo: FK hacia 'ocupantes'
             $table->foreignId('usuario_id')->constrained('usuarios'); // FK hacia 'usuarios'
             $table->timestamps();
         });
