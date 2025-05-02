@@ -33,5 +33,10 @@ class Nicho extends Model
         return $this->belongsTo(EstadoNicho::class, 'estado_nicho_id');
     }
 
+    public function ocupante()
+{
+    return $this->hasOne(Ocupante::class);
+}
+
 }
 

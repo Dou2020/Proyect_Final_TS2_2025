@@ -7,6 +7,8 @@ use App\Models\Nicho;
 use App\Models\TipoNicho;
 use App\Models\EstadoNicho;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class NichoController extends Controller
 {
@@ -15,9 +17,31 @@ class NichoController extends Controller
      */
     public function index()
     {
-        $nichos = Nicho::all();
-        return view('nichos.index', compact('nichos'));
+        $usuario = Auth::guard('usuarios')->user();
+
+        if ($usuario && !in_array($usuario->rol_id, [4, 5])) {
+            // Mostrar todos los nichos con su ocupante
+            $nichos = Nicho::with('ocupante')->get();
+        } else {
+            // Mostrar solo los nichos disponibles
+            $nichos = Nicho::with('ocupante')->where('estado_nicho_id', 1)->get();
+        }
+    
+        // Estadísticas
+        $totalDisponibles = Nicho::where('estado_nicho_id', 1)->count(); // 1 = Disponible
+        $totalOcupados = Nicho::where('estado_nicho_id', 2)->count();    // 2 = Ocupado
+    
+        $ocupantesPorGenero = DB::table('ocupantes')
+        ->join('usuarios', 'ocupantes.usuario_id', '=', 'usuarios.id')
+        ->join('generos', 'usuarios.genero_id', '=', 'generos.id')
+        ->select('generos.nombre as genero', DB::raw('count(*) as total'))
+        ->groupBy('generos.nombre')
+        ->get();
+    
+    
+        return view('nichos.index', compact('nichos', 'totalDisponibles', 'totalOcupados', 'ocupantesPorGenero'));
     }
+    
 
     /**
      * Mostrar el formulario para crear un nuevo nicho.

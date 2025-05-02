@@ -1,12 +1,18 @@
+@php
+    $usuario = Auth::guard('usuarios')->user();
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-4">Listado de Contratos</h1>
-
+    
+@if ($usuario && !in_array($usuario->rol_id, [4, 5]))
     <a href="{{ route('contratos.create') }}" class="mb-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
         Nuevo Contrato
     </a>
+@endif
 
     @if(session('success'))
         <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
@@ -22,7 +28,7 @@
                     <th class="px-4 py-2">Fecha Inicio</th>
                     <th class="px-4 py-2">Fecha Final</th>
                     <th class="px-4 py-2">Pago</th>
-                    <th class="px-4 py-2">Costo</th>
+                    <th class="px-4 py-2">Estado</th>
                     <th class="px-4 py-2">Boleta</th>
                     <th class="px-4 py-2">Nicho</th>
                     <th class="px-4 py-2">Responsable</th>
@@ -40,7 +46,7 @@
                                 {{ $contrato->boleta?->estado_pago ? 'Pagado' : 'Pendiente' }}
                             </span>
                         </td>
-                        <td class="px-4 py-2">Q {{ $contrato->boleta?->monto ?? 00.00 }}</td>
+                        <td class="px-4 py-2">{{ $contrato->estadoContrato?->nombre ?? 'N/A' }}</td>
                         <td class="px-4 py-2">{{ $contrato->boleta?->numero_boleta ?? 'No generada' }}</td>
                         <td class="px-4 py-2">{{ $contrato->ocupante?->nicho->codigo ?? 'N/A' }}</td>
                         <td class="px-4 py-2">{{ $contrato->usuario->nombre ?? 'N/A' }}</td>
@@ -51,6 +57,7 @@
                             <button type="submit" class="text-green-600 hover:underline">
                                 Renovar
                             </button>
+
                         </form>
 
                             <a href="{{ route('contratos.edit', $contrato) }}" class="text-yellow-600 hover:underline">Editar</a>

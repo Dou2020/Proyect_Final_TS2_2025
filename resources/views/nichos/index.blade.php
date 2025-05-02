@@ -1,12 +1,38 @@
+@php
+    $usuario = Auth::guard('usuarios')->user();
+@endphp
+
 @extends('layouts.app')
 
 @section('title', 'Lista de Nichos')
 
 @section('content')
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+@if ($usuario && !in_array($usuario->rol_id, [4, 5]))
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+            <h2 class="text-lg font-semibold text-gray-700">Nichos Disponibles</h2>
+            <p class="text-2xl text-green-600 font-bold">{{ $totalDisponibles }}</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+            <h2 class="text-lg font-semibold text-gray-700">Nichos Ocupados</h2>
+            <p class="text-2xl text-red-600 font-bold">{{ $totalOcupados }}</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+            <h2 class="text-lg font-semibold text-gray-700">Ocupantes por Género</h2>
+            @foreach($ocupantesPorGenero as $genero)
+                <p class="text-md text-gray-800">{{ ucfirst($genero->genero) }}: <span class="font-bold">{{ $genero->total }}</span></p>
+            @endforeach
+        </div>
+    </div>
+@endif
+
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Lista de Nichos</h1>
-        <a href="{{ route('nichos.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">+ Nuevo Nicho</a>
+        @if ($usuario && !in_array($usuario->rol_id, [4, 5]))
+            <a href="{{ route('nichos.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">+ Nuevo Nicho</a>
+        @endif
     </div>
     @if(session('success'))
         <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg shadow">
@@ -53,7 +79,7 @@
                             Ocupante
                         </a>
                     @endif
-
+                    @if ($usuario && !in_array($usuario->rol_id, [4, 5]))
                         <a href="{{ route('nichos.edit', $nicho->id) }}"
                            class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition text-xs">
                             Editar
@@ -68,6 +94,7 @@
                             </button>
                         </form>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
